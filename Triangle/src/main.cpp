@@ -136,34 +136,34 @@ void setup_render_state()
 void process_key(sf::Event::KeyEvent e)
 {
 	switch (e.code) {
-	case (sf::Keyboard::Right):
+	case sf::Keyboard::Right:
 		glRotatef(-rot_inc * 180.0f / GL_PI, 0.0f, 1.0f, 0.0f);
 		break;
-	case (sf::Keyboard::Left):
+	case sf::Keyboard::Left:
 		glRotatef(rot_inc * 180.0f / GL_PI, 0.0f, 1.0f, 0.0f);
 		break;
-	case (sf::Keyboard::Up):
+	case sf::Keyboard::Up:
 		glRotatef(rot_inc * 180.0f / GL_PI, 1.0f, 0.0f, 0.0f);
 		break;
-	case (sf::Keyboard::Down):
+	case sf::Keyboard::Down:
 		glRotatef(-rot_inc * 180.0f / GL_PI, 1.0f, 0.0f, 0.0f);
 		break;
-	case (sf::Keyboard::Escape):
+	case sf::Keyboard::Escape:
 		g_run = false;
 		break;
-	case (sf::Keyboard::Space):
+	case sf::Keyboard::Space:
 		glLoadIdentity();
 		g_cull  = false;
 		g_depth = true;
 		g_wire  = false;
 		break;
-	case (sf::Keyboard::C):
+	case sf::Keyboard::C:
 		g_cull = !g_cull;
 		break;
-	case (sf::Keyboard::D):
+	case sf::Keyboard::D:
 		g_depth = !g_depth;
 		break;
-	case (sf::Keyboard::W):
+	case sf::Keyboard::W:
 		g_wire = !g_wire;
 		break;
 	default:
