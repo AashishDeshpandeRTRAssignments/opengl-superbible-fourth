@@ -12,15 +12,15 @@ endif()
 set(Triangle_VERSION_MAJOR 1)
 set(Triangle_VERSION_MINOR 0)
 set(PROJECT_SOURCE_DIR "${CMAKE_SOURCE_DIR}/src")
-set(PROJECT_BINARY_DIR "${CMAKE_SOURCE_DIR}/bin")
+set(PROJECT_BINARY_DIR "${CMAKE_SOURCE_DIR}/cfg")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 configure_file("${PROJECT_SOURCE_DIR}/config.h.in"
                "${PROJECT_BINARY_DIR}/config.h")
-include_directories("${PROJECT_BINARY_DIR}")
+include_directories("${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}")
 
 # Define sources and executable
 set(EXECUTABLE_NAME "Triangle")
-add_executable(${EXECUTABLE_NAME} src/main.cpp)
-
+add_executable(${EXECUTABLE_NAME} src/main.cpp src/functions.cpp)
 # Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 #Find any version 2.X of SFML
