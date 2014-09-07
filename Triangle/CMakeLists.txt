@@ -9,8 +9,8 @@ endif()
 # (you can also set it on the command line: -D CMAKE_BUILD_TYPE=Release)
 
 # Set version information in a config.h file
-set(Triangle_VERSION_MAJOR 1)
-set(Triangle_VERSION_MINOR 0)
+set(APP_TITLE "Triangle")
+set(APP_VERSION "1.00")
 set(PROJECT_SOURCE_DIR "${CMAKE_SOURCE_DIR}/src")
 set(PROJECT_BINARY_DIR "${CMAKE_SOURCE_DIR}/cfg")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
@@ -23,6 +23,7 @@ set(EXECUTABLE_NAME "Triangle")
 add_executable(${EXECUTABLE_NAME} src/main.cpp src/functions.cpp)
 # Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+
 #Find any version 2.X of SFML
 #See the FindSFML.cmake file for additional details and instructions
 find_package(SFML 2 REQUIRED system window graphics network audio)
@@ -44,6 +45,6 @@ install(TARGETS ${EXECUTABLE_NAME} DESTINATION bin)
 # CPack packaging
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
-set(CPACK_PACKAGE_VERSION_MAJOR "${Triangle_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${Triangle_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_MAJOR "${VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${VERSION_MINOR}")
 include(CPack)

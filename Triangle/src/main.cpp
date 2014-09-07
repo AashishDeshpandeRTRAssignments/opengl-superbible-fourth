@@ -3,18 +3,19 @@
 
 int main(int argc, const char * const argv[])
 {
-	sf::Event         e;
-	sf::Window        win;
-	sf::VideoMode     vm;
-	std::string       win_title;
-	std::stringstream version;
+	sf::Event           e;
+	sf::Window          win;
+	sf::VideoMode       vm;
+	std::stringstream   win_title;
+	sf::ContextSettings cs;
 
-	version<<"v"<<Triangle_VERSION_MAJOR<<"."<<Triangle_VERSION_MINOR;
-	win_title       = "Triangle " + version.str();
+	win_title<<APP_TITLE<<" "<<APP_VERSION;
 	vm.width        = WIDTH;
 	vm.height       = HEIGHT;
 	vm.bitsPerPixel = 32;
-	win.create(vm, win_title);
+	cs.depthBits    = 24;
+	cs.stencilBits  = 8;
+	win.create(vm, win_title.str(), sf::Style::Default, cs);
 	win.setFramerateLimit(60);
 	win.setVerticalSyncEnabled(g_vsync);
 	win.setActive();

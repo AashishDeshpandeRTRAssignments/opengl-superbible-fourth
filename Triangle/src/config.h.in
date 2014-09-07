@@ -1,2 +1,2 @@
-#define Triangle_VERSION_MAJOR @Triangle_VERSION_MAJOR@
-#define Triangle_VERSION_MINOR @Triangle_VERSION_MINOR@
+#define APP_VERSION "${APP_VERSION}"
+#define APP_TITLE "${APP_TITLE}"
