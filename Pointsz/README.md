@@ -4,6 +4,6 @@ Based off of the Pointsz example from Chapter 3 in the fourth edition of The Ope
 
 Usage
 =====
-Arrow keys rotate scene
-Space resets scene
-ESC exits
+Arrow keys rotate scene	
+Space resets scene	
+ESC exits	
