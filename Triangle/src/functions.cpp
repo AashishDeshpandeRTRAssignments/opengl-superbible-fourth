@@ -16,7 +16,7 @@ GLfloat ang_inc = GL_PI / 8.0f;
 
 //SETTINGS
 GLboolean cull  = false;
-GLboolean depth = true;
+GLboolean depth = false;
 GLboolean wire  = false;
 
 void draw_axes()
@@ -63,7 +63,7 @@ void render_scene()
 	z = 0.0f;
 	//Draw cone
 	glBegin(GL_TRIANGLE_FAN);
-		glVertex3f(0.0f, 0.0f, -0.75f * limit);
+		glVertex3f(0.0f, 0.0f, 0.75f * limit);
 		for (theta = 0.0f; theta <= max_ang; theta += ang_inc) {
 			if (red)
 				glColor3f(1.0f, 0.0f, 0.0f);
@@ -123,6 +123,7 @@ void setup_render_state()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glShadeModel(GL_FLAT);
+	glFrontFace(GL_CW);
 	win_resized(win_w, win_h);
 }
 
