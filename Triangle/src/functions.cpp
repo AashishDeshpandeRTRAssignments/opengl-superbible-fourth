@@ -151,7 +151,7 @@ void process_key(sf::Event::KeyEvent e)
 	case sf::Keyboard::Space:
 		glLoadIdentity();
 		cull  = false;
-		depth = true;
+		depth = false;
 		wire  = false;
 		break;
 	case sf::Keyboard::C:
