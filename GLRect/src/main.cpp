@@ -10,7 +10,6 @@ void render_scene()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glRectf(-25.0f, 25.0f, 25.0f, -25.0f);
-	glFlush(); //Flush b/c no vsync
 }
 
 void win_resized(GLsizei w, GLsizei h)
@@ -67,6 +66,7 @@ int main(int argc, const char * const argv[])
 	vm.bitsPerPixel = 32;
 	win.create(vm, win_title);
 	win.setVerticalSyncEnabled(g_vsync);
+	win.setFramerateLimit(60);
 	win.setActive();
 	setup_render_state(vm.width, vm.height);
 	while(g_run) {
