@@ -25,18 +25,18 @@ void draw_axes()
 {
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_LINES);
-		glVertex3f(-100.0f, 0.0f, 0.0f);
-		glVertex3f(100.0f, 0.0f, 0.0f);
+		glVertex3f(-limit, 0.0f, 0.0f);
+		glVertex3f(limit, 0.0f, 0.0f);
 	glEnd();
 	glColor3f(0.0f, 0.0f, 1.0f);
 	glBegin(GL_LINES);
-		glVertex3f(0.0f, -100.0f, 0.0f);
-		glVertex3f(0.0f, 100.0f, 0.0f);
+		glVertex3f(0.0f, -limit, 0.0f);
+		glVertex3f(0.0f, limit, 0.0f);
 	glEnd();
 	glColor3f(1.0f, 1.0f, 0.0f);
 	glBegin(GL_LINES);
-		glVertex3f(0.0f, 0.0f, -100.0f);
-		glVertex3f(0.0f, 0.0f, 100.0f);
+		glVertex3f(0.0f, 0.0f, -limit);
+		glVertex3f(0.0f, 0.0f, limit);
 	glEnd();
 }
 
@@ -50,7 +50,7 @@ void render_scene()
 	glClear(GL_COLOR_BUFFER_BIT);
 	draw_axes();
 	glColor3f(0.0f, 1.0f, 0.0f);
-	glBegin(GL_LINE_STRIP);
+	glBegin(GL_POINTS);
 		z = -limit / 2.0f;
 		for (theta = 0.0f; theta <= max_ang; theta += ang_inc) {
 			x = limit / 2.0f * cos(theta);
@@ -146,7 +146,6 @@ int main(int argc, const char * const argv[])
 	sf::Event     e;
 	sf::Window    win;
 	sf::VideoMode vm;
-	sf::Clock     c;
 	std::string   win_title;
 
 	win_title       = "Points";
@@ -158,7 +157,6 @@ int main(int argc, const char * const argv[])
 	win.setVerticalSyncEnabled(g_vsync);
 	win.setActive();
 	setup_render_state();
-	c.restart();
 	while(g_run) {
 		while (win.pollEvent(e))
 			handle_event(e);
