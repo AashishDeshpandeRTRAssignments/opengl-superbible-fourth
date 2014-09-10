@@ -20,7 +20,7 @@ include_directories("${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}")
 
 # Define sources and executable
 set(EXECUTABLE_NAME "Triangle")
-add_executable(${EXECUTABLE_NAME} src/main.cpp src/functions.cpp)
+add_executable(${EXECUTABLE_NAME} src/main.cpp src/functions.cpp src/global.h cfg/config.h)
 # Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 

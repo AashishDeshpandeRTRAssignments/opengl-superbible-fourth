@@ -1,3 +1,7 @@
+#ifndef __GLOBAL_H_GUARD__
+
+#define __GLOBAL_H_GUARD
+
 //INCLUDES
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
@@ -22,3 +26,5 @@ void render_scene();
 void win_resized(GLsizei w, GLsizei h);
 void process_key(sf::Event::KeyEvent e);
 void handle_event(sf::Event e);
+
+#endif
