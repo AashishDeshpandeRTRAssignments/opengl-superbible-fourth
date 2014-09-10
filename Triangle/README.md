@@ -6,6 +6,6 @@ Usage
 =====
 The arrow keys rotate the scene	
 Space resets the scene to its defaults	
-C toggles culling	
-D toggles depth testing	
-W toggles wire-frame	
+C toggles culling		
+D toggles depth testing		
+W toggles wire-frame		
