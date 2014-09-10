@@ -1,6 +1,6 @@
 #ifndef __GLOBAL_H_GUARD__
 
-#define __GLOBAL_H_GUARD
+#define __GLOBAL_H_GUARD__
 
 //INCLUDES
 #include <SFML/Window.hpp>
