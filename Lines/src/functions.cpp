@@ -5,18 +5,18 @@ GLboolean g_vsync = false;
 GLboolean g_run   = true;
 
 //WIN VARS (Start square)
-GLuint win_w = WIDTH;
-GLuint win_h = HEIGHT;
+static GLuint win_w = WIDTH;
+static GLuint win_h = HEIGHT;
 
 //LIMITS
-GLfloat limit   = 100.0f;
-GLfloat rot_inc = (GL_PI / 36.0f);
-GLfloat max_ang = GL_PI;
-GLfloat ang_inc = (GL_PI / 20.0f);
+static GLfloat limit   = 100.0f;
+static GLfloat rot_inc = (GL_PI / 36.0f);
+static GLfloat max_ang = GL_PI;
+static GLfloat ang_inc = (GL_PI / 20.0f);
 
 //SETTINGS
-GLfloat   x_rot = 0.0f;
-GLfloat   y_rot = 0.0f;
+static GLfloat x_rot = 0.0f;
+static GLfloat y_rot = 0.0f;
 
 //Converts degrees to radians
 GLfloat deg_to_rad(GLfloat degrees)

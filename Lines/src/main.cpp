@@ -14,7 +14,8 @@ int main(int argc, const char * const argv[])
 	cs.depthBits    = 24;
 	cs.stencilBits  = 8;
 	win.create(vm, APP_TITLE" "APP_VERSION, sf::Style::Default, cs);
-	win.setFramerateLimit(60);
+	if (!g_vsync)
+		win.setFramerateLimit(60);
 	win.setVerticalSyncEnabled(g_vsync);
 	win.setActive();
 	setup_render_state();
