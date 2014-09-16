@@ -9,10 +9,15 @@ static GLuint win_w = WIDTH;
 static GLuint win_h = HEIGHT;
 
 //LIMITS
-static GLfloat limit   = 100.0f;
-static GLfloat rot_inc = (GL_PI / 36.0f);
-static GLfloat max_ang = GL_PI;
-static GLfloat ang_inc = (GL_PI / 20.0f);
+static GLfloat limit     = 100.0f;
+static GLfloat rot_inc   = GL_PI / 36.0f;
+static GLfloat max_y     = 90.0f;
+static GLfloat max_x     = 80.0f;
+static GLfloat y_inc     = 20.0f;
+static GLfloat width_inc = 1.0f;
+
+//STORE MACHINE SPECIFIC GL SETTINGS
+static GLfloat line_width_range[2];
 
 //SETTINGS
 static GLfloat x_rot = 0.0f;
@@ -33,6 +38,7 @@ GLfloat rad_to_deg(GLfloat radians)
 //Draw the 3 axes
 void draw_axes()
 {
+	glLineWidth(line_width_range[0]);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_LINES);
 		glVertex3f(-limit, 0.0f, 0.0f);
@@ -55,7 +61,7 @@ void render_scene()
 {
 	GLfloat   x;
 	GLfloat   y;
-	GLfloat   z;
+	GLfloat   line_width;
 	GLfloat   theta;
 
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -63,20 +69,16 @@ void render_scene()
 	glRotatef(rad_to_deg(x_rot), 1.0f, 0.0f, 0.0f);
 	glRotatef(rad_to_deg(y_rot), 0.0f, 1.0f, 0.0f);
 	draw_axes();
-	z = 0.0f;
 	glColor3f(0.0f, 1.0f, 0.0f);
-	glBegin(GL_LINES);
-		for (theta = 0.0f; theta <= max_ang; theta += ang_inc) {
-			//Top half
-			x = limit / 2.0f * cos(theta);
-			y = limit / 2.0f * sin(theta);
-			glVertex3f(x, y, z);
-			//Bottom half (top angle + pi rads)
-			x = limit / 2.0f * cos(theta + GL_PI);
-			y = limit / 2.0f * sin(theta + GL_PI);
-			glVertex3f(x, y, z);
-		}
-	glEnd();
+	line_width = line_width_range[0];
+	for (y = -max_y; y < max_y; y += y_inc) {
+		glLineWidth(line_width);
+		glBegin(GL_LINES);
+			glVertex2f(-max_x, y);
+			glVertex2f(max_x, y);
+			line_width += width_inc;
+		glEnd();
+	}
 	glPopMatrix();
 }
 
@@ -113,6 +115,7 @@ void win_resized(GLsizei w, GLsizei h)
 void setup_render_state()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glGetFloatv(GL_LINE_WIDTH_RANGE, line_width_range);
 	win_resized(win_w, win_h);
 }
 
