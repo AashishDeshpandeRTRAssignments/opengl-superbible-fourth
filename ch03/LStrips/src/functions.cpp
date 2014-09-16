@@ -11,8 +11,8 @@ static GLuint win_h = HEIGHT;
 //LIMITS
 static GLfloat limit   = 100.0f;
 static GLfloat rot_inc = (GL_PI / 36.0f);
-static GLfloat max_ang = GL_PI;
-static GLfloat ang_inc = (GL_PI / 20.0f);
+static GLfloat max_ang = (6.0f * GL_PI);
+static GLfloat ang_inc = 0.1f;
 
 //SETTINGS
 static GLfloat x_rot = 0.0f;
@@ -63,18 +63,14 @@ void render_scene()
 	glRotatef(rad_to_deg(x_rot), 1.0f, 0.0f, 0.0f);
 	glRotatef(rad_to_deg(y_rot), 0.0f, 1.0f, 0.0f);
 	draw_axes();
-	z = 0.0f;
+	z = -limit / 2.0f;
 	glColor3f(0.0f, 1.0f, 0.0f);
-	glBegin(GL_LINES);
+	glBegin(GL_LINE_STRIP);
 		for (theta = 0.0f; theta <= max_ang; theta += ang_inc) {
-			//Top half
 			x = limit / 2.0f * cos(theta);
 			y = limit / 2.0f * sin(theta);
 			glVertex3f(x, y, z);
-			//Bottom half (top angle + pi rads)
-			x = limit / 2.0f * cos(theta + GL_PI);
-			y = limit / 2.0f * sin(theta + GL_PI);
-			glVertex3f(x, y, z);
+			z += ang_inc * 5.0f;
 		}
 	glEnd();
 	glPopMatrix();
