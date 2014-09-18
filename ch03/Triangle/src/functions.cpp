@@ -123,7 +123,6 @@ void setup_render_state()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glShadeModel(GL_FLAT);
-	glFrontFace(GL_CW);
 	win_resized(win_w, win_h);
 }
 
