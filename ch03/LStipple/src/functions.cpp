@@ -16,9 +16,6 @@ static GLfloat draw_right = 80.0f;
 static GLfloat y_inc      = 20.0f;
 static GLfloat width_inc  = 1.0f;
 
-//STORE MACHINE SPECIFIC GL SETTINGS
-static GLfloat line_width_range[2];
-
 //SETTINGS
 static GLfloat x_rot = 0.0f;
 static GLfloat y_rot = 0.0f;
@@ -38,7 +35,6 @@ GLfloat rad_to_deg(GLfloat radians)
 //Draw the 3 axes
 void draw_axes()
 {
-	glLineWidth(line_width_range[0]);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_LINES);
 		glVertex3f(-limit, 0.0f, 0.0f);
@@ -59,8 +55,9 @@ void draw_axes()
 //Draw our objects
 void render_scene()
 {
-	GLfloat   y;
-	GLfloat   line_width;
+	GLfloat  y;
+	GLint    factor  = 1;
+	GLushort pattern = 0x5555;
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glPushMatrix();
@@ -68,15 +65,15 @@ void render_scene()
 	glRotatef(rad_to_deg(y_rot), 0.0f, 1.0f, 0.0f);
 	draw_axes();
 	glColor3f(0.0f, 1.0f, 0.0f);
-	line_width = line_width_range[0];
+	glEnable(GL_LINE_STIPPLE);
 	for (y = -draw_top; y < draw_top; y += y_inc) {
-		glLineWidth(line_width);
+		glLineStipple(factor++, pattern);
 		glBegin(GL_LINES);
 			glVertex2f(-draw_right, y);
 			glVertex2f(draw_right, y);
-			line_width += width_inc;
 		glEnd();
 	}
+	glDisable(GL_LINE_STIPPLE);
 	glPopMatrix();
 }
 
@@ -113,7 +110,6 @@ void win_resized(GLsizei w, GLsizei h)
 void setup_render_state()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glGetFloatv(GL_LINE_WIDTH_RANGE, line_width_range);
 	win_resized(win_w, win_h);
 }
 
