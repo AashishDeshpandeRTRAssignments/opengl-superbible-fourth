@@ -9,15 +9,48 @@ static GLuint win_w = WIDTH;
 static GLuint win_h = HEIGHT;
 
 //LIMITS
-static GLfloat limit      = 100.0f;
-static GLfloat rot_inc    = GL_PI / 36.0f;
-static GLfloat draw_top   = 90.0f;
-static GLfloat draw_right = 80.0f;
-static GLfloat y_inc      = 20.0f;
+static const GLfloat limit      = 100.0f;
+static const GLfloat rot_inc    = GL_PI / 36.0f;
 
 //SETTINGS
 static GLfloat x_rot = 0.0f;
 static GLfloat y_rot = 0.0f;
+
+//Bitmap of camp fire
+static const GLubyte fire[128] = {
+	0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0xc0,
+	0x00, 0x00, 0x01, 0xf0,
+	0x00, 0x00, 0x07, 0xf0,
+	0x0f, 0x00, 0x1f, 0xe0,
+	0x1f, 0x80, 0x1f, 0xc0,
+	0x0f, 0xc0, 0x3f, 0x80,
+	0x07, 0xe0, 0x7e, 0x00,
+	0x03, 0xf0, 0xff, 0x80,
+	0x03, 0xf5, 0xff, 0xe0,
+	0x07, 0xfd, 0xff, 0xf8,
+	0x1f, 0xfc, 0xff, 0xe8,
+	0xff, 0xe3, 0xbf, 0x70,
+	0xde, 0x80, 0xb7, 0x00,
+	0x71, 0x10, 0x4a, 0x80,
+	0x03, 0x10, 0x4e, 0x40,
+	0x02, 0x88, 0x8c, 0x20,
+	0x05, 0x05, 0x04, 0x40,
+	0x02, 0x82, 0x14, 0x40,
+	0x02, 0x40, 0x10, 0x80,
+	0x02, 0x64, 0x1a, 0x80,
+	0x00, 0x92, 0x29, 0x00,
+	0x00, 0xb0, 0x48, 0x00,
+	0x00, 0xc8, 0x90, 0x00,
+	0x00, 0x85, 0x10, 0x00,
+	0x00, 0x03, 0x00, 0x00,
+	0x00, 0x00, 0x10, 0x00
+};
 
 //Converts degrees to radians
 GLfloat deg_to_rad(GLfloat degrees)
@@ -48,31 +81,30 @@ void draw_axes()
 	glBegin(GL_LINES);
 		glVertex3f(0.0f, 0.0f, -limit);
 		glVertex3f(0.0f, 0.0f, limit);
-	glEnd();
+	glEnd();	glEnd();
+
 }
 
 //Draw our objects
 void render_scene()
 {
-	GLfloat  y;
-	GLint    factor  = 1;
-	GLushort pattern = 0x5555;
-
 	glClear(GL_COLOR_BUFFER_BIT);
 	glPushMatrix();
 	glRotatef(rad_to_deg(x_rot), 1.0f, 0.0f, 0.0f);
 	glRotatef(rad_to_deg(y_rot), 0.0f, 1.0f, 0.0f);
 	draw_axes();
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glEnable(GL_LINE_STIPPLE);
-	for (y = -draw_top; y < draw_top; y += y_inc) {
-		glLineStipple(factor++, pattern);
-		glBegin(GL_LINES);
-			glVertex2f(-draw_right, y);
-			glVertex2f(draw_right, y);
-		glEnd();
-	}
-	glDisable(GL_LINE_STIPPLE);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	//Octagon
+	glBegin(GL_POLYGON);
+		glVertex2f(-20.0f, 50.0f);
+		glVertex2f(20.0f, 50.0f);
+		glVertex2f(50.0f, 20.0f);
+		glVertex2f(50.0f, -20.0f);
+		glVertex2f(20.0f, -50.0f);
+		glVertex2f(-20.0f, -50.0f);
+		glVertex2f(-50.0f, -20.0f);
+		glVertex2f(-50.0f, 20.0f);
+	glEnd();
 	glPopMatrix();
 }
 
@@ -109,6 +141,8 @@ void win_resized(GLsizei w, GLsizei h)
 void setup_render_state()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glEnable(GL_POLYGON_STIPPLE);
+	glPolygonStipple(fire);
 	win_resized(win_w, win_h);
 }
 
