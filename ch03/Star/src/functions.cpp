@@ -70,14 +70,14 @@ void render_scene()
 		glVertex2f(-60.0f, 0.0f);
 		glEdgeFlag(edge_flag);
 		glVertex2f(-20.0f, -20.0f);
-		glEdgeFlag(GL_TRUE);
 
+		glEdgeFlag(GL_TRUE);
 		glVertex2f(-20.0f, -20.0f);
 		glVertex2f(0.0f, -60.0f);
 		glEdgeFlag(edge_flag);
 		glVertex2f(20.0f, -20.0f);
-		glEdgeFlag(GL_TRUE);
 
+		glEdgeFlag(GL_TRUE);
 		glVertex2f(20.0f, -20.0f);
 		glVertex2f(60.0f, 0.0f);
 		glEdgeFlag(edge_flag);
