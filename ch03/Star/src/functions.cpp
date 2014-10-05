@@ -1,0 +1,196 @@
+#include "global.h"
+
+//GLOBALS
+GLboolean g_vsync = GL_FALSE;
+GLboolean g_run   = GL_TRUE;
+
+//WIN VARS (Start square)
+static GLuint win_w = WIDTH;
+static GLuint win_h = HEIGHT;
+
+//LIMITS
+static const GLfloat limit   = 100.0f;
+static const GLfloat rot_inc = GL_PI / 36.0f;
+
+//SETTINGS
+static GLfloat   x_rot     = 0.0f;
+static GLfloat   y_rot     = 0.0f;
+static GLboolean edge_flag = GL_FALSE;
+
+//Converts degrees to radians
+GLfloat deg_to_rad(GLfloat degrees)
+{
+	return degrees * GL_PI / 180.0f;
+}
+
+//Converts radians to degrees
+GLfloat rad_to_deg(GLfloat radians)
+{
+	return radians / GL_PI * 180.0f;
+}
+
+//Draw the 3 axes
+void draw_axes()
+{
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_LINES);
+		glVertex3f(-limit, 0.0f, 0.0f);
+		glVertex3f(limit, 0.0f, 0.0f);
+	glEnd();
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glBegin(GL_LINES);
+		glVertex3f(0.0f, -limit, 0.0f);
+		glVertex3f(0.0f, limit, 0.0f);
+	glEnd();
+	glColor3f(1.0f, 1.0f, 0.0f);
+	glBegin(GL_LINES);
+		glVertex3f(0.0f, 0.0f, -limit);
+		glVertex3f(0.0f, 0.0f, limit);
+	glEnd();
+}
+
+//Draw our objects
+void render_scene()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glPushMatrix();
+	glRotatef(rad_to_deg(x_rot), 1.0f, 0.0f, 0.0f);
+	glRotatef(rad_to_deg(y_rot), 0.0f, 1.0f, 0.0f);
+	draw_axes();
+	glColor3f(0.0f, 1.0f, 0.0f);
+	//Four Point Star
+	glBegin(GL_TRIANGLES);
+		glEdgeFlag(edge_flag);
+		glVertex2f(-20.0f, 20.0f);
+		glEdgeFlag(GL_TRUE);
+		glVertex2f(20.0f, 20.0f);
+		glVertex2f(0.0f, 60.0f);
+
+		glVertex2f(-20.0f, 20.0f);
+		glVertex2f(-60.0f, 0.0f);
+		glEdgeFlag(edge_flag);
+		glVertex2f(-20.0f, -20.0f);
+		glEdgeFlag(GL_TRUE);
+
+		glVertex2f(-20.0f, -20.0f);
+		glVertex2f(0.0f, -60.0f);
+		glEdgeFlag(edge_flag);
+		glVertex2f(20.0f, -20.0f);
+		glEdgeFlag(GL_TRUE);
+
+		glVertex2f(20.0f, -20.0f);
+		glVertex2f(60.0f, 0.0f);
+		glEdgeFlag(edge_flag);
+		glVertex2f(20.0f, 20.0f);
+
+		//Center square is two triangles
+		glVertex2f(-20.0f, 20.0f);
+		glVertex2f(-20.0f, -20.0f);
+		glVertex2f(20.0f, 20.0f);
+
+		glVertex2f(-20.0f, -20.0f);
+		glVertex2f(20.0f, -20.0f);
+		glVertex2f(20.0f, 20.0f);
+	glEnd();
+	glPopMatrix();
+}
+
+//Fix the viewport and projection matrix when the screen resizes
+void win_resized(GLsizei w, GLsizei h)
+{
+	GLfloat ar;
+	GLfloat max_x;
+	GLfloat max_y;
+	GLfloat max_z;
+
+	win_w = w;
+	win_h = h;
+	if (win_h == 0)
+		win_h = 1;
+	glViewport(0, 0, win_w, win_h);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	ar = (GLfloat)w / (GLfloat)h;
+	if (w <= h) {
+		max_x = limit;
+		max_y = limit / ar;
+	} else {
+		max_x = limit * ar;
+		max_y = limit;
+	}
+	max_z = limit;
+	glOrtho(-max_x, max_x, -max_y, max_y, -max_z, max_z);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+}
+
+//Set any necessary GL settings
+void setup_render_state()
+{
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	win_resized(win_w, win_h);
+}
+
+//Handle key presses
+void process_key(sf::Event::KeyEvent e)
+{
+	switch (e.code) {
+	case sf::Keyboard::Right:
+		y_rot -= rot_inc;
+		if (y_rot <= 0.0f)
+			y_rot += 2.0f * GL_PI;
+		break;
+	case sf::Keyboard::Left:
+		y_rot += rot_inc;
+		if (y_rot >= 2.0f * GL_PI)
+			y_rot -= 2.0f * GL_PI;
+		break;
+	case sf::Keyboard::Up:
+		x_rot += rot_inc;
+		if (x_rot >= 2.0f * GL_PI)
+			x_rot -= 2.0f * GL_PI;
+		break;
+	case sf::Keyboard::Down:
+		x_rot -= rot_inc;
+		if (x_rot <= 0.0f)
+			x_rot += 2.0f * GL_PI;
+		break;
+	case sf::Keyboard::Escape:
+		sf::Event e;
+
+		e.type = sf::Event::Closed;
+		handle_event(e);
+		break;
+	case sf::Keyboard::Space:
+		x_rot = 0.0f;
+		y_rot = 0.0f;
+		break;
+	case sf::Keyboard::E:
+		edge_flag = !edge_flag;
+		break;
+	default:
+		break;
+	}
+}
+
+//Handle SFML events
+void handle_event(sf::Event e)
+{
+	switch (e.type) {
+	case sf::Event::Closed:
+		fprintf(stderr,
+		        "OpenGL Version String: %s\n",
+		        glGetString(GL_VERSION));
+		g_run = false;
+		break;
+	case sf::Event::Resized:
+		win_resized(e.size.width, e.size.height);
+		break;
+	case sf::Event::KeyPressed:
+		process_key(e.key);
+		break;
+	default:
+		break;
+	}
+}
