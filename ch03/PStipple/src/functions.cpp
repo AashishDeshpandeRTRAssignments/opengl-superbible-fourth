@@ -81,8 +81,7 @@ void draw_axes()
 	glBegin(GL_LINES);
 		glVertex3f(0.0f, 0.0f, -limit);
 		glVertex3f(0.0f, 0.0f, limit);
-	glEnd();	glEnd();
-
+	glEnd();
 }
 
 //Draw our objects
